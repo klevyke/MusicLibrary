@@ -8,12 +8,22 @@ import java.util.ArrayList;
 
 public class SongList {
     private ArrayList<Song> mSongs;
+    private ArrayList<Song> mPlayList;
+    private Boolean mHasPlaylist = false;
     /**
      * Constructor
      * @return
      */
     public SongList () {
         mSongs = populateSongList();
+    }
+
+    public  ArrayList<Song> getPlayList() {
+        return mPlayList;
+    }
+
+    public Boolean hasPlaylist() {
+        return mHasPlaylist;
     }
 
     public ArrayList<Song> getSongs(){
@@ -40,5 +50,12 @@ public class SongList {
         trackList.add(new Song("Bon Jovi", "It's My Live", "rock"));
 
         return trackList;
+    }
+
+    /**
+     *  Add a track to playlist
+     */
+    public void addToPlaylist (int trackIndex) {
+        mPlayList.add(mSongs.get(trackIndex));
     }
 }
