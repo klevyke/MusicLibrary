@@ -18,7 +18,7 @@ public class SongList {
         mSongs = populateSongList();
     }
 
-    public  ArrayList<Song> getPlayList() {
+    public ArrayList<Song> getPlayList() {
         return mPlayList;
     }
 
@@ -29,6 +29,7 @@ public class SongList {
     public ArrayList<Song> getSongs(){
         return mSongs;
     }
+
 
     public ArrayList<Song> populateSongList() {
         ArrayList<Song> trackList = new ArrayList<Song>();
@@ -56,6 +57,10 @@ public class SongList {
      *  Add a track to playlist
      */
     public void addToPlaylist (int trackIndex) {
+        if (!hasPlaylist()) {
+            mPlayList = new ArrayList<Song>();
+            mHasPlaylist = true;
+        }
         mPlayList.add(mSongs.get(trackIndex));
     }
 }

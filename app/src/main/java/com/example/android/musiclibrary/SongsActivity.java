@@ -17,13 +17,17 @@ public class SongsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.track_list);
 
+        // create a new song list form SongList object
         ArrayList<Song> songs = new SongList().getSongs();
 
-        SongAdapter itemsAdapter = new SongAdapter(this, songs, R.layout.songs_item);
+        // Create a SongAdapter to populate the songs listView
+        SongAdapter itemsAdapter = new SongAdapter(this, songs, R.layout.songs_item, this);
 
+        // Get the listView for the song list
         ListView listView = (ListView) findViewById(R.id.list);
 
+        // Set the adapter
         listView.setAdapter(itemsAdapter);
-    }
 
+    }
 }

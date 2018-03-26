@@ -7,27 +7,21 @@
     android:padding="@dimen/normal">
 
     <TextView
-        android:id="@+id/genre_text_view"
+        android:id="@+id/artist_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/main_text"
-        tools:text="Genre" />
+        tools:text="Various Artist" />
 
     <TextView
         android:id="@+id/song_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Track Song Name" />
+        tools:text="song name" />
 
     <TextView
-        android:id="@+id/artist_text_view"
+        android:id="@+id/genre_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Various Artist" />
-
-    <Button
-        android:id="@+id/add_to_playlist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add" />
+        tools:text="genre" />
 </LinearLayout>
