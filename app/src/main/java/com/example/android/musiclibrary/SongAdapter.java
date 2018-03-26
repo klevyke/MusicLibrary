@@ -52,7 +52,7 @@ public class SongAdapter extends ArrayAdapter<Song> {
         }
 
         // Get the {@link AndroidFlavor} object located at this position in the list
-        Song currentSong = getItem(position);
+        final Song currentSong = getItem(position);
 
         // Find the TextView with the ID artist_text_view
         TextView artist = (TextView) listItemView.findViewById(R.id.artist_text_view);
@@ -89,7 +89,7 @@ public class SongAdapter extends ArrayAdapter<Song> {
                     Intent resultIntent = new Intent();
 
                     // Set the index of clicked song
-                    resultIntent.putExtra("TRACK_INDEX", position);
+                    resultIntent.putExtra("TRACK_INDEX", currentSong.getSongId());
 
                     // Return the index as result and finish this activity
                     parentActivity.setResult(Activity.RESULT_OK, resultIntent);
