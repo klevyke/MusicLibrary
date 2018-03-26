@@ -18,7 +18,7 @@ public class SongsActivity extends AppCompatActivity {
         setContentView(R.layout.track_list);
 
         // create a new song list form SongList object
-        ArrayList<Song> songs = new SongList().getSongs();
+        ArrayList<Song> songs = new SongList().getSongsByTitle();
 
         // Create a SongAdapter to populate the songs listView
         SongAdapter itemsAdapter = new SongAdapter(this, songs, R.layout.songs_item, this);
