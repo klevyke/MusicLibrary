@@ -3,4 +3,8 @@
     <color name="colorPrimary">#607D8B</color>
     <color name="colorPrimaryDark">#263238</color>
     <color name="colorAccent">#FFA000</color>
+    <color name="player">#37474F</color>
+    <color name="player_text">#ECEFF1</color>
+    <color name="playlist_headline">#607D8B</color>
+    <color name="button_background">#455A64</color>
 </resources>
