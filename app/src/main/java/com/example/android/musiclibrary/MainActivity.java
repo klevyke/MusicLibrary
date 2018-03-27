@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -25,11 +27,20 @@ public class MainActivity extends AppCompatActivity {
     // Playlist ListView
     ListView listView;
 
+    TextView currentSongTextView;
+    TextView currentArtistTextView;
+    ImageView playImageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         listView = (ListView) findViewById(R.id.list);
+
+        // Currently played song texts
+        currentSongTextView = (TextView) findViewById(R.id.current_song);
+        currentArtistTextView = (TextView) findViewById(R.id.current_artist);
+
         // Find the View that shows the numbers category
         TextView songs = (TextView) findViewById(R.id.songs_selector);
 
@@ -79,6 +90,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(genreIntent,PLAYLIST_TRACK);
             }
         });
+
+        playImageView = (ImageView) findViewById(R.id.play_icon);
+        // Set a click listener on play icon
+        playImageView.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                // When clicked play the song.
+                playFirst();
+            }
+        });
     }
 
     @Override
@@ -103,5 +125,76 @@ public class MainActivity extends AppCompatActivity {
                 listView.setAdapter(itemsAdapter);
             }
         }
+    }
+
+    /**
+     *  Play the first song from the playlist
+     */
+    private void playFirst() {
+
+        if (songList.hasPlaylist()) {
+            // Get the first song in playlist
+            Song toPlay = songList.getPlayList().get(0);
+
+            // Update the player TextView
+            currentArtistTextView.setText(toPlay.getArtist());
+            currentSongTextView.setText(toPlay.getSong());
+
+            // Change icon to pause
+            playImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
+
+            // Remove the song from adapter
+            itemsAdapter.remove(toPlay);
+
+            // Set onClick listener
+            playImageView.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+                    // When clicked play the song.
+                    pause();
+                }
+            });
+        } else {
+            Toast.makeText(this, "Put some tracks in the playlist", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /**
+     * Play the song
+     */
+    private void play() {
+
+        // Change icon to pause
+        playImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
+
+        // Set onClick listener
+        playImageView.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                // When clicked play the song.
+                pause();
+            }
+        });
+    }
+
+    /**
+     * Pause the song
+     */
+    private void pause() {
+
+        // Change icon to pause
+        playImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
+
+        // Set onClick listener
+        playImageView.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                // When clicked play the song.
+                play();
+            }
+        });
     }
 }
