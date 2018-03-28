@@ -1,14 +1,12 @@
 package com.example.android.musiclibrary;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-/**
- * Created by Levy on 21.03.2018.
- */
-
-public class SongList {
+public class SongList implements Parcelable {
     private ArrayList<Song> mSongs;
     private ArrayList<Song> mPlayList;
     private Boolean mHasPlaylist = false;
@@ -160,4 +158,65 @@ public class SongList {
 
         return trackList;
     }
+
+    /**
+     * Parcelable implementation
+     * generated on parcelabler.com
+     */
+
+    protected SongList(Parcel in) {
+        if (in.readByte() == 0x01) {
+            mSongs = new ArrayList<Song>();
+            in.readList(mSongs, Song.class.getClassLoader());
+        } else {
+            mSongs = null;
+        }
+        if (in.readByte() == 0x01) {
+            mPlayList = new ArrayList<Song>();
+            in.readList(mPlayList, Song.class.getClassLoader());
+        } else {
+            mPlayList = null;
+        }
+        byte mHasPlaylistVal = in.readByte();
+        mHasPlaylist = mHasPlaylistVal == 0x02 ? null : mHasPlaylistVal != 0x00;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (mSongs == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(mSongs);
+        }
+        if (mPlayList == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(mPlayList);
+        }
+        if (mHasPlaylist == null) {
+            dest.writeByte((byte) (0x02));
+        } else {
+            dest.writeByte((byte) (mHasPlaylist ? 0x01 : 0x00));
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<SongList> CREATOR = new Parcelable.Creator<SongList>() {
+        @Override
+        public SongList createFromParcel(Parcel in) {
+            return new SongList(in);
+        }
+
+        @Override
+        public SongList[] newArray(int size) {
+            return new SongList[size];
+        }
+    };
 }

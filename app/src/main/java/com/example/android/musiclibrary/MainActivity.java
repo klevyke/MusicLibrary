@@ -21,6 +21,9 @@ public class MainActivity extends AppCompatActivity {
     // SongList object used to generate the playlist
     SongList songList = new SongList();
 
+    // Current song
+    Song currentlyPlaying;
+
     // SongAdapter object used to poulate the playlist ListView
     SongAdapter itemsAdapter;
 
@@ -35,12 +38,14 @@ public class MainActivity extends AppCompatActivity {
     ImageView playImageView;
 
     // Boolean if the song is loaded in player
-    Boolean isLoaded = false;
+    Boolean hasSongLoaded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // target ListView
         listView = (ListView) findViewById(R.id.list);
 
         // Currently played song texts
@@ -110,6 +115,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        // Save the object
+        savedInstanceState.putParcelable("savedSongList", songList);
+        savedInstanceState.putParcelable("savedCurrentSong", currentlyPlaying);
+        savedInstanceState.putBoolean("hasSongLoaded", hasSongLoaded);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        // Get the saved object
+        songList = savedInstanceState.getParcelable("savedSongList");
+        currentlyPlaying = savedInstanceState.getParcelable("savedCurrentSong");
+        hasSongLoaded = savedInstanceState.getBoolean("hasSongLoaded");
+
+        // Update the player TextView
+        currentArtistTextView.setText(currentlyPlaying.getArtist());
+        currentSongTextView.setText(currentlyPlaying.getSong());
+
+        // Update the adapter
+        itemsAdapter = new SongAdapter(this, songList.getPlayList(), R.layout.playlist_item, this);
+
+        // Set the adapter
+        listView.setAdapter(itemsAdapter);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         // Check the requestCode
@@ -141,9 +175,11 @@ public class MainActivity extends AppCompatActivity {
         // check if playlist has song items
         if (songList.hasPlaylist()) {
 
-            if (!isLoaded) {
+            if (!hasSongLoaded) {
+                // Get the first song in playlist
+                currentlyPlaying = songList.getPlayList().get(0);
                 // load the next song
-                loadNextSong();
+                loadNextSongToPlayer();
             }
 
             // Change icon to pause
@@ -185,21 +221,19 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Load the next song to player
      */
-    private void loadNextSong() {
-        // Get the first song in playlist
-        Song toPlay = songList.getPlayList().get(0);
+    private void loadNextSongToPlayer() {
 
         // Update the player TextView
-        currentArtistTextView.setText(toPlay.getArtist());
-        currentSongTextView.setText(toPlay.getSong());
+        currentArtistTextView.setText(currentlyPlaying.getArtist());
+        currentSongTextView.setText(currentlyPlaying.getSong());
 
         // Change icon to pause
         playImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
 
         // Remove the song from adapter
-        itemsAdapter.remove(toPlay);
+        itemsAdapter.remove(currentlyPlaying);
 
         // Set the isLoaded Boolean to true
-        isLoaded = true;
+        hasSongLoaded = true;
     }
 }
