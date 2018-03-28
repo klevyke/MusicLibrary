@@ -27,9 +27,15 @@ public class MainActivity extends AppCompatActivity {
     // Playlist ListView
     ListView listView;
 
+    // Player TextViews - currently played
     TextView currentSongTextView;
     TextView currentArtistTextView;
+
+    // Player ImageView
     ImageView playImageView;
+
+    // Boolean if the song is loaded in player
+    Boolean isLoaded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // When clicked play the song.
-                playFirst();
+                play();
             }
         });
     }
@@ -128,23 +134,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     *  Play the first song from the playlist
+     * Play the song
      */
-    private void playFirst() {
+    private void play() {
 
+        // check if playlist has song items
         if (songList.hasPlaylist()) {
-            // Get the first song in playlist
-            Song toPlay = songList.getPlayList().get(0);
 
-            // Update the player TextView
-            currentArtistTextView.setText(toPlay.getArtist());
-            currentSongTextView.setText(toPlay.getSong());
+            if (!isLoaded) {
+                // load the next song
+                loadNextSong();
+            }
 
             // Change icon to pause
             playImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
-
-            // Remove the song from adapter
-            itemsAdapter.remove(toPlay);
 
             // Set onClick listener
             playImageView.setOnClickListener(new OnClickListener() {
@@ -156,27 +159,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         } else {
-            Toast.makeText(this, "Put some tracks in the playlist", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Add some songs to the playlist", Toast.LENGTH_LONG).show();
         }
-    }
-
-    /**
-     * Play the song
-     */
-    private void play() {
-
-        // Change icon to pause
-        playImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
-
-        // Set onClick listener
-        playImageView.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                // When clicked play the song.
-                pause();
-            }
-        });
     }
 
     /**
@@ -196,5 +180,26 @@ public class MainActivity extends AppCompatActivity {
                 play();
             }
         });
+    }
+
+    /**
+     * Load the next song to player
+     */
+    private void loadNextSong() {
+        // Get the first song in playlist
+        Song toPlay = songList.getPlayList().get(0);
+
+        // Update the player TextView
+        currentArtistTextView.setText(toPlay.getArtist());
+        currentSongTextView.setText(toPlay.getSong());
+
+        // Change icon to pause
+        playImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
+
+        // Remove the song from adapter
+        itemsAdapter.remove(toPlay);
+
+        // Set the isLoaded Boolean to true
+        isLoaded = true;
     }
 }
