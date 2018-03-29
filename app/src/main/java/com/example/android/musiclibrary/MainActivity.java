@@ -129,13 +129,16 @@ public class MainActivity extends AppCompatActivity {
 
         // Get the saved object
         songList = savedInstanceState.getParcelable("savedSongList");
-        currentlyPlaying = savedInstanceState.getParcelable("savedCurrentSong");
         hasSongLoaded = savedInstanceState.getBoolean("hasSongLoaded");
 
-        // Update the player TextView
-        currentArtistTextView.setText(currentlyPlaying.getArtist());
-        currentSongTextView.setText(currentlyPlaying.getSong());
-
+        // Check if we need to repopulate the player's TextViews
+        if (hasSongLoaded) {
+            // Get the current song
+            currentlyPlaying = savedInstanceState.getParcelable("savedCurrentSong");
+            // Update the player TextView
+            currentArtistTextView.setText(currentlyPlaying.getArtist());
+            currentSongTextView.setText(currentlyPlaying.getSong());
+        }
         // Update the adapter
         itemsAdapter = new SongAdapter(this, songList.getPlayList(), R.layout.playlist_item, this);
 

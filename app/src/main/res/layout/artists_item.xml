@@ -1,42 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:padding="@dimen/normal">
 
-    <TextView
-        android:id="@+id/artist_text_view"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/main_text"
-        android:textColor="@color/player_text"
-        tools:text="Various Artist" />
+        android:layout_weight="80"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/song_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/artist_text_view"
-        android:textColor="@color/player_text"
-        tools:text="song name" />
+        <TextView
+            android:id="@+id/artist_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/player_text"
+            android:textSize="@dimen/main_text"
+            tools:text="Various Artist" />
 
-    <TextView
-        android:id="@+id/genre_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/song_text_view"
-        android:textColor="@color/player_text"
-        tools:text="genre" />
+        <TextView
+            android:id="@+id/song_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/player_text"
+            tools:text="song name" />
+
+        <TextView
+            android:id="@+id/genre_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/player_text"
+            tools:text="genre" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/add_to_playlist"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerInParent="true"
+        android:layout_weight="20"
         android:background="@color/button_background"
-        android:textColor="@color/player_text"
-        android:text="@string/add" />
-</RelativeLayout>
+        android:text="@string/add"
+        android:textColor="@color/player_text" />
+</LinearLayout>

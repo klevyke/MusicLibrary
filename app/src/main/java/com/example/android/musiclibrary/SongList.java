@@ -141,7 +141,7 @@ public class SongList implements Parcelable {
         ArrayList<Song> trackList = new ArrayList<Song>();
         trackList.add(new Song(1, "Michael Jackson", "Dirty Diana", "pop"));
         trackList.add(new Song(2, "Metallica", "Enter Sadman", "rock"));
-        trackList.add(new Song(3, "Armin van Buuren feat Josh Cumbee", "Sunny Days", "trance"));
+        trackList.add(new Song(3, "Armin van Buuren feat Josh Cumbee (Radio Edit)", "Sunny Days", "trance"));
         trackList.add(new Song(4, "Scorpions", "Wind of Change", "rock"));
         trackList.add(new Song(5,"Avicii", "Levels", "club"));
         trackList.add(new Song(6,"Skrillex", "First Of The Year (Equinox)", "dubstep"));
