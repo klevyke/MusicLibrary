@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MusicLibrary</string>
-    <string name="songs">Songs</string>
-    <string name="artists">Artists</string>
+    <string name="songs">Song title</string>
+    <string name="artists">Artist</string>
     <string name="genre">Genre</string>
     <string name="playlist">Playlist</string>
     <string name="now_playing">Now playing</string>
@@ -9,4 +9,5 @@
     <string name="artist_name">Artist name</string>
     <string name="add">Add</string>
     <string name="play_pause">Play/Pause</string>
+    <string name="search_by">Search by...</string>
 </resources>

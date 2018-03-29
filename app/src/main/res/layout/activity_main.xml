@@ -7,13 +7,18 @@
     android:orientation="vertical"
     android:background="@color/colorPrimaryDark"
     tools:context="com.example.android.musiclibrary.MainActivity">
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small"
+        android:gravity="center"
+        android:textColor="@color/playlist_headline"
+        android:text="@string/search_by"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_margin="@dimen/small"
-        android:padding="@dimen/small">
+        android:layout_margin="@dimen/small">
         <TextView
             android:id="@+id/songs_selector"
             android:layout_width="@dimen/zero"
