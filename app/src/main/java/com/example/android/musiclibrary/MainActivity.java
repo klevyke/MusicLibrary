@@ -19,9 +19,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     // Constant used for checking the return requestCode form other activity
     static final int PLAYLIST_TRACK = 1;
+
+    // Constants used in state change handling
     static final String SAVED_CURRENT_SONG = "savedSong";
     static final String SAVED_SONG_LIST = "savedSongList";
     static final String HAS_SONG_LOADED = "hasSongLoaded";
+
+    // Constant used to get the result from the other activities
     static final String TRACK_INDEX = "trackIndex";
 
     // SongList object used to generate the playlist
@@ -58,24 +62,23 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         currentSongTextView = (TextView) findViewById(R.id.current_song);
         currentArtistTextView = (TextView) findViewById(R.id.current_artist);
 
-        // Find the View that shows the numbers category
+        // Find the View that shows the songs list and set a click listener
         TextView songs = (TextView) findViewById(R.id.songs_selector);
         songs.setOnClickListener(this);
 
-        // Find the View that shows the artist list
+        // Find the View that shows the artist list and set a click listener
         TextView artists = (TextView) findViewById(R.id.artists_selector);
         artists.setOnClickListener(this);
 
-        // Find the View that shows the genre list
+        // Find the View that shows the genre list and set a click listener
         TextView genre = (TextView) findViewById(R.id.genre_selector);
         genre.setOnClickListener(this);
 
-        // Find the play icon view
+        // Find the play icon view and set a click listener
         playImageView = (ImageView) findViewById(R.id.play_icon);
-        // Set a click listener on play icon
         playImageView.setOnClickListener(this);
     }
-
+    // inspiration https://stackoverflow.com/questions/4987670/using-switch-statement-to-handle-button-clicks/4987721#4987721
     @Override
     public void onClick(View view) {
         Intent intent = null;

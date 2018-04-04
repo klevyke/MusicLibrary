@@ -17,10 +17,14 @@ import java.util.Set;
  */
 
 public class SongAdapter extends ArrayAdapter<Song> {
+    // Constant used to get the result from the other activities
+
     static final String TRACK_INDEX = "trackIndex";
+
     // the xml resource id of the file that will be used for rendering an element
     private int mResource;
-    Activity parentActivity = new Activity();
+
+    private Activity parentActivity = new Activity();
     /**
      * Constructor
      * @param context
@@ -33,6 +37,7 @@ public class SongAdapter extends ArrayAdapter<Song> {
         mResource = resource;
         parentActivity = activity;
     }
+
     /**
      * Provides a view for an AdapterView (ListView, GridView, etc.)
      *
@@ -77,7 +82,7 @@ public class SongAdapter extends ArrayAdapter<Song> {
         Button addToPlayList = (Button) listItemView.findViewById(R.id.add_to_playlist);
 
         // Check if the button is created (in MainActivity there is no add button in the playlist)
-        if (addToPlayList instanceof Button) {
+        if (addToPlayList != null) {
 
             // Set a click listener on that View
             addToPlayList.setOnClickListener(new View.OnClickListener() {
