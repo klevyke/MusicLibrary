@@ -17,6 +17,7 @@ import java.util.Set;
  */
 
 public class SongAdapter extends ArrayAdapter<Song> {
+    static final String TRACK_INDEX = "trackIndex";
     // the xml resource id of the file that will be used for rendering an element
     private int mResource;
     Activity parentActivity = new Activity();
@@ -89,7 +90,7 @@ public class SongAdapter extends ArrayAdapter<Song> {
                     Intent resultIntent = new Intent();
 
                     // Set the index of clicked song
-                    resultIntent.putExtra("TRACK_INDEX", currentSong.getSongId());
+                    resultIntent.putExtra(TRACK_INDEX, currentSong.getSongId());
 
                     // Return the index as result and finish this activity
                     parentActivity.setResult(Activity.RESULT_OK, resultIntent);

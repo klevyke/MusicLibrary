@@ -1,6 +1,7 @@
 package com.example.android.musiclibrary;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,11 +13,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Set;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     // Constant used for checking the return requestCode form other activity
     static final int PLAYLIST_TRACK = 1;
+    static final String SAVED_CURRENT_SONG = "savedSong";
+    static final String SAVED_SONG_LIST = "savedSongList";
+    static final String HAS_SONG_LOADED = "hasSongLoaded";
+    static final String TRACK_INDEX = "trackIndex";
 
     // SongList object used to generate the playlist
     SongList songList = new SongList();
@@ -54,73 +60,57 @@ public class MainActivity extends AppCompatActivity {
 
         // Find the View that shows the numbers category
         TextView songs = (TextView) findViewById(R.id.songs_selector);
-
-        // Set a click listener on that View
-        songs.setOnClickListener(new OnClickListener() {
-            // When songs is clicked on.
-
-            @Override
-            public void onClick(View view) {
-
-                // Create a new intent to open the {@link SongsActivity}
-                Intent songsIntent = new Intent(MainActivity.this, SongsActivity.class);
-
-                // Start the new activity
-                startActivityForResult(songsIntent,PLAYLIST_TRACK);
-            }
-        });
+        songs.setOnClickListener(this);
 
         // Find the View that shows the artist list
         TextView artists = (TextView) findViewById(R.id.artists_selector);
+        artists.setOnClickListener(this);
 
-        // Set a click listener on that View
-        artists.setOnClickListener(new OnClickListener() {
-            // When artists is clicked on.
-            @Override
-            public void onClick(View view) {
-                // Create a new intent to open the {@link ArtistActivity}
-                Intent artistsIntent = new Intent(MainActivity.this, ArtistsActivity.class);
-
-                // Start the new activity
-                startActivityForResult(artistsIntent,PLAYLIST_TRACK);
-            }
-        });
-
-        // Find the View that shows the colors category
+        // Find the View that shows the genre list
         TextView genre = (TextView) findViewById(R.id.genre_selector);
+        genre.setOnClickListener(this);
 
-        // Set a click listener on that View
-        genre.setOnClickListener(new OnClickListener() {
-            // When genre is clicked on.
-            @Override
-            public void onClick(View view) {
-                // Create a new intent to open the {@link GenreActivity}
-                Intent genreIntent = new Intent(MainActivity.this, GenreActivity.class);
-
-                // Start the new activity
-                startActivityForResult(genreIntent,PLAYLIST_TRACK);
-            }
-        });
-
+        // Find the play icon view
         playImageView = (ImageView) findViewById(R.id.play_icon);
         // Set a click listener on play icon
-        playImageView.setOnClickListener(new OnClickListener() {
+        playImageView.setOnClickListener(this);
+    }
 
-            @Override
-            public void onClick(View view) {
-                // When clicked play the song.
+    @Override
+    public void onClick(View view) {
+        Intent intent = null;
+        // Perform action on click
+        switch(view.getId()) {
+            case R.id.songs_selector:
+                // Create a new intent to open the {@link SongsActivity}
+                intent = new Intent(MainActivity.this, SongsActivity.class);
+                break;
+            case R.id.artists_selector:
+                // Create a new intent to open the {@link ArtistsActivity}
+                intent = new Intent(MainActivity.this, ArtistsActivity.class);
+                break;
+            case R.id.genre_selector:
+                // Create a new intent to open the {@link genreActivity}
+                intent = new Intent(MainActivity.this, GenreActivity.class);
+                break;
+            case R.id.play_icon:
+                // Play the song
                 play();
-            }
-        });
+                break;
+        }
+        // Check if th intent variable is set
+        if (intent != null) {
+            startActivityForResult(intent, PLAYLIST_TRACK);
+        }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         // Save the object
-        savedInstanceState.putParcelable("savedSongList", songList);
-        savedInstanceState.putParcelable("savedCurrentSong", currentlyPlaying);
-        savedInstanceState.putBoolean("hasSongLoaded", hasSongLoaded);
+        savedInstanceState.putParcelable(SAVED_SONG_LIST, songList);
+        savedInstanceState.putParcelable(SAVED_CURRENT_SONG, currentlyPlaying);
+        savedInstanceState.putBoolean(HAS_SONG_LOADED, hasSongLoaded);
     }
 
     @Override
@@ -128,13 +118,13 @@ public class MainActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
 
         // Get the saved object
-        songList = savedInstanceState.getParcelable("savedSongList");
-        hasSongLoaded = savedInstanceState.getBoolean("hasSongLoaded");
+        songList = savedInstanceState.getParcelable(SAVED_SONG_LIST);
+        hasSongLoaded = savedInstanceState.getBoolean(HAS_SONG_LOADED);
 
         // Check if we need to repopulate the player's TextViews
         if (hasSongLoaded) {
             // Get the current song
-            currentlyPlaying = savedInstanceState.getParcelable("savedCurrentSong");
+            currentlyPlaying = savedInstanceState.getParcelable(SAVED_CURRENT_SONG);
             // Update the player TextView
             currentArtistTextView.setText(currentlyPlaying.getArtist());
             currentSongTextView.setText(currentlyPlaying.getSong());
@@ -156,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
 
                 // Get the trackIndex returned
-                int trackIndex = (int) data.getExtras().getInt("TRACK_INDEX");
+                int trackIndex = (int) data.getExtras().getInt(TRACK_INDEX);
 
                 // Add the song at trackIndex
                 songList.addToPlaylist(trackIndex);

@@ -41,6 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="20"
         android:background="@color/button_background"
+        android:contentDescription="@string/add_to_playlist"
         android:text="@string/add"
         android:textColor="@color/player_text" />
 </LinearLayout>
